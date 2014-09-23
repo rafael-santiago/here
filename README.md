@@ -99,7 +99,7 @@ Santiago
 
 Here ou Libhere é uma biblioteca C que implementa expressões regulares de um jeito simples e direto.
 
-"Here" é um subprojeto do projeto Hefesto e isso pode ser endentido como *H*efesto's *R*egular *E*xpressions.
+"Here" é um subprojeto do projeto Hefesto e isso pode ser entendido como *H*efesto's *R*egular *E*xpressions.
 
 Esta biblioteca não é posix porque meu principal objetivo neste projeto é manter as coisas simples e não inchadas.
 
