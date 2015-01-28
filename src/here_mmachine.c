@@ -104,6 +104,12 @@ here_search_result_ctx *here_execute_search_program(const char *buffer,
                 printf("(buffer end)\n");
             }
 */
+            if (search_program->ctype == HERE_CTYPE_START &&
+                search_program->next == next_step &&
+                search_result->start_at != buffer) {
+                break;
+            }
+
             if (next_step == search_program) {
                 start_at = search_result->start_at;
             }
