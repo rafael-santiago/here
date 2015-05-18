@@ -15,12 +15,20 @@ project here-test : toolset "gcc-c-app" : $sources, $includes, $cflags,
 
 
 here-test.prologue() {
-    $sources.ls(".*\\.c$");
-    $ldflags = hefesto.sys.get_option("ldflags");
-    $ldflags.add_item("../lib/libhere.a");
-    $includes = hefesto.sys.get_option("includes");
-    $includes = hefesto.sys.get_option("libraries");
-    $includes = hefesto.sys.get_option("cflags");
+    var exit_code type int;
+    $exit_code = 1;
+    if (hefesto.sys.cd("cute/src")) {
+	$exit_code = hefesto.sys.forge("cute", "Forgefile.hsl", "--obj-output-dir=obj --bin-output-dir=lib");
+	hefesto.sys.cd("../..");
+        $sources.ls(".*\\.c$");
+        $ldflags = hefesto.sys.get_option("ldflags");
+        $ldflags.add_item("../lib/libhere.a");
+        $ldflags.add_item("cute/src/lib/libcute.a");
+        $includes = hefesto.sys.get_option("includes");
+        $includes.add_item("cute/src");
+        $libraries = hefesto.sys.get_option("libraries");
+        $cflags = hefesto.sys.get_option("cflags");
+    }
 }
 
 function run_unittests() : result type int {

@@ -6,10 +6,11 @@
  *
  */
 #include "../here.h"
-#include "htest.h"
+#include <cute.h>
 #include <stdio.h>
 
-char *here_matching_test() {
+
+CUTE_TEST_CASE(here_matching_test)
     struct matching_mapping {
         char *data;
         char *regex;
@@ -148,19 +149,18 @@ char *here_matching_test() {
     here_search_program_ctx *search_program, *sp;
     here_search_result_ctx *search_result;
     char *msg = (char *) malloc(1024);
-    printf("-- running here_matching_test()\n\n");
     for (m = 0; mm[m].data != NULL; m++) {
         printf("\ttesting \"%s\" against \"%s\"...\n", mm[m].data, mm[m].regex);
         search_program = here_compile(mm[m].regex, NULL);
-        HTEST_CHECK("search_program == NULL", search_program != NULL);
+        CUTE_CHECK("search_program == NULL", search_program != NULL);
         search_result = here_match_string(mm[m].data, search_program);
         retval = here_matches(search_result);
         if (mm[m].should_match) {
             sprintf(msg, "\"%s\" doesn't match with \"%s\"\n", mm[m].data, mm[m].regex);
-            HTEST_CHECK(msg, retval);
+            CUTE_CHECK(msg, retval);
         } else {
             sprintf(msg, "\"%s\" matches with \"%s\"\n", mm[m].data, mm[m].regex);
-            HTEST_CHECK(msg, !retval);
+            CUTE_CHECK(msg, !retval);
         }
         printf("\tok.\n");
         del_here_search_program_ctx(search_program);
@@ -168,11 +168,9 @@ char *here_matching_test() {
             del_here_search_result_ctx(search_result);
         }
     }
-    printf("\n-- passed.\n\n");
-    return NULL;
-}
+CUTE_TEST_CASE_END
 
-char *here_replacing_test() {
+CUTE_TEST_CASE(here_replacing_test)
     struct replace_test {
         char *regex;
         char *pattern;
@@ -196,7 +194,7 @@ char *here_replacing_test() {
         {"me rafael", "me santiago.", "my name is rafael, but you can call me rafael", "my name is rafael, but you can call me santiago."},
         {"c (string|String)", "console String", "Hey Beavis, I'm a c String Huh!", "Hey Beavis, I'm a console String Huh!"},
         {"c.*(string|String)", "console String", "Hey Beavis, I'm a c Huhuhuh Huhuhuh... Ahnmm Huh String Huh!", "Hey Beavis, I'm a console String Huh!"},
-        {"[nN]icotine.*[vV]alium.*[Vv]icodin.*[mM]arijuana.*[Ee]cstasy.*[aA]lcohol", "bring me a coke please.", "nicotine-Valium/vicodin/Marijuana-ecstasy-Alcohol", "bring me a coke please."},
+        {"[nN]icotine.*[vV]alium.*[Vv]icodin.*[mM]arijuana.*[Ee]cstasy.*[aA]lcohol", "no!", "nicotine-Valium/vicodin/Marijuana-ecstasy-Alcohol", "no!"},
         {"break my.*e", "didn't break my code", "you break my c   o       de.", "you didn't break my code."},
         {"do+r", "door", "please, keep your backdor shut.", "please, keep your backdoor shut."},
         {"[0123456789]+\\.[0123456789]+\\.[0123456789]+\\.[0123456789]+", "1.2.3.4", "0.0.0.0", "1.2.3.4"},
@@ -210,25 +208,22 @@ char *here_replacing_test() {
     size_t output_size = 0;
     here_search_program_ctx *search_program;
     char *msg = (char *) malloc(1024);
-    printf("-- running here_replacing_test()\n\n");
     for (r = 0; rt[r].regex != NULL; r++) {
         printf("\ttesting \"%s\" against \"%s\"...\n", rt[r].regex, rt[r].data);
         search_program = here_compile(rt[r].regex, NULL);
-        HTEST_CHECK("search_program == NULL", search_program != NULL);
+        CUTE_CHECK("search_program == NULL", search_program != NULL);
         here_replace_string(rt[r].data, search_program, rt[r].pattern, &output, &output_size);
         sprintf(msg, "output != \"%s\" : (output\"%s\")", rt[r].expected, output);
-        HTEST_CHECK(msg, strcmp(output, rt[r].expected) == 0);
+        CUTE_CHECK(msg, strcmp(output, rt[r].expected) == 0);
         printf("\tok.\n");
         if (output != NULL) {
             free(output);
         }
         del_here_search_program_ctx(search_program);
     }
-    printf("\n-- passed.\n\n");
-    return NULL;
-}
+CUTE_TEST_CASE_END
 
-char *here_compiler_test() {
+CUTE_TEST_CASE(here_compiler_test)
     struct compiler_test {
         char *regex;
         int is_valid;
@@ -265,41 +260,24 @@ char *here_compiler_test() {
     int c;
     char *msg = (char *) malloc(1024);
     here_search_program_ctx *search_program;
-    printf("-- running here_compiler_test()\n\n");
     for (c = 0; ct[c].regex != NULL; c++) {
         printf("\tcompiling %s...\n", ct[c].regex);
         search_program = here_compile(ct[c].regex, NULL);
         if (ct[c].is_valid) {
             sprintf(msg, "regex %s is invalid\n", ct[c].regex);
-            HTEST_CHECK(msg, search_program != NULL);
+            CUTE_CHECK(msg, search_program != NULL);
         } else {
             sprintf(msg, "regex %s is valid\n", ct[c].regex);
-            HTEST_CHECK(msg, search_program == NULL);
+            CUTE_CHECK(msg, search_program == NULL);
         }
         printf("\tok.\n");
     }
-    printf("\n-- passed.\n\n");
-    return NULL;
-}
+CUTE_TEST_CASE_END
 
-char *run_tests() {
-    HTEST_RUN(here_compiler_test);
-    HTEST_RUN(here_matching_test);
-    HTEST_RUN(here_replacing_test);
-    return NULL;
-}
+CUTE_TEST_CASE(run_tests)
+    CUTE_RUN_TEST(here_compiler_test);
+    CUTE_RUN_TEST(here_matching_test);
+    CUTE_RUN_TEST(here_replacing_test);
+CUTE_TEST_CASE_END
 
-int main(int argc, char **argv) {
-
-    char *retval = run_tests();
-
-    if (retval != NULL) {
-        printf("%s [%d test(s) ran]\n", retval, htest_ran_tests);
-        free(retval);
-        return 1;
-    } else {
-        printf("* all tests passed :-) [%d test(s) ran]\n", htest_ran_tests);
-    }
-
-    return 0;
-}
+CUTE_MAIN(run_tests)
