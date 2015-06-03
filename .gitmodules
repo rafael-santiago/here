@@ -1,3 +1,6 @@
 [submodule "src/test/cute"]
 	path = src/test/cute
 	url = https://github.com/rafael-santiago/cute.git
+[submodule "src/test/cutest"]
+	path = src/test/cutest
+	url = git://github.com/rafael-santiago/cutest.git
