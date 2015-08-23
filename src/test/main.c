@@ -168,6 +168,7 @@ CUTE_TEST_CASE(here_matching_test)
             del_here_search_result_ctx(search_result);
         }
     }
+    free(msg);
 CUTE_TEST_CASE_END
 
 CUTE_TEST_CASE(here_replacing_test)
@@ -221,6 +222,7 @@ CUTE_TEST_CASE(here_replacing_test)
         }
         del_here_search_program_ctx(search_program);
     }
+    free(msg);
 CUTE_TEST_CASE_END
 
 CUTE_TEST_CASE(here_compiler_test)
@@ -270,8 +272,12 @@ CUTE_TEST_CASE(here_compiler_test)
             sprintf(msg, "regex %s is valid\n", ct[c].regex);
             CUTE_CHECK(msg, search_program == NULL);
         }
+        if (search_program != NULL) {
+            del_here_search_program_ctx(search_program);
+        }
         printf("\tok.\n");
     }
+    free(msg);
 CUTE_TEST_CASE_END
 
 CUTE_TEST_CASE(run_tests)

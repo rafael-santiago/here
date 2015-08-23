@@ -168,6 +168,7 @@ here_search_program_ctx *add_regex_to_here_search_program_ctx(
                 }
                 new_step->ccomp = HERE_CTYPE_RANGE;
                 b = t;
+                free(x);
                 break;
         }
 
