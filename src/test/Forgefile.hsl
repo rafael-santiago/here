@@ -3,6 +3,8 @@
 # Here Unittest
 #
 include ~/toolsets/gcc/gcc-app.hsl
+include ~/toolsets/clang/clang-app.hsl
+include ../Forgeutils.hsl
 
 var sources type list;
 var includes type list;
@@ -10,9 +12,15 @@ var libraries type list;
 var ldflags type list;
 var cflags type list;
 
-project here-test : toolset "gcc-c-app" : $sources, $includes, $cflags,
-                                          $libraries, $ldflags, "here_unittest" ;
+var chosen_toolset type string;
 
+project here-test : toolset $chosen_toolset : $sources, $includes, $cflags,
+                                              $libraries, $ldflags, "here_unittest" ;
+
+
+here-test.preloading() {
+    $chosen_toolset = get_toolset_basename() + "app";
+}
 
 here-test.prologue() {
     var exit_code type int;

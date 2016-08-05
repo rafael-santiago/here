@@ -195,7 +195,6 @@ CUTE_TEST_CASE(here_replacing_test)
         {"me rafael", "me santiago.", "my name is rafael, but you can call me rafael", "my name is rafael, but you can call me santiago."},
         {"c (string|String)", "console String", "Hey Beavis, I'm a c String Huh!", "Hey Beavis, I'm a console String Huh!"},
         {"c.*(string|String)", "console String", "Hey Beavis, I'm a c Huhuhuh Huhuhuh... Ahnmm Huh String Huh!", "Hey Beavis, I'm a console String Huh!"},
-        {"[nN]icotine.*[vV]alium.*[Vv]icodin.*[mM]arijuana.*[Ee]cstasy.*[aA]lcohol", "no!", "nicotine-Valium/vicodin/Marijuana-ecstasy-Alcohol", "no!"},
         {"break my.*e", "didn't break my code", "you break my c   o       de.", "you didn't break my code."},
         {"do+r", "door", "please, keep your backdor shut.", "please, keep your backdoor shut."},
         {"[0123456789]+\\.[0123456789]+\\.[0123456789]+\\.[0123456789]+", "1.2.3.4", "0.0.0.0", "1.2.3.4"},

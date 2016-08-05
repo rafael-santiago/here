@@ -3,7 +3,9 @@
 # Here's main Forgefile.
 #
 include ~/toolsets/gcc/gcc-lib.hsl
+include ~/toolsets/clang/clang-lib.hsl
 include ~/toolsets/common/utils/lang/c/dependency_scanner.hsl
+include Forgeutils.hsl
 
 var deps type string;
 var sources type list;
@@ -12,12 +14,18 @@ var cflags type list;
 var libraries type list;
 var ldflags type list;
 
-project here : toolset "gcc-c-lib" : dependencies $deps : $sources,
-                                                          $includes,
-                                                          $cflags,
-                                                          $libraries,
-                                                          $ldflags,
-                                                          "libhere.a" ;
+var chosen_toolset type string;
+
+project here : toolset $chosen_toolset : dependencies $deps : $sources,
+                                                              $includes,
+                                                              $cflags,
+                                                              $libraries,
+                                                              $ldflags,
+                                                              "libhere.a" ;
+
+here.preloading() {
+    $chosen_toolset = get_toolset_basename() + "lib";
+}
 
 here.prologue() {
     $deps = get_c_cpp_deps();
