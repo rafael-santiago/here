@@ -8,7 +8,7 @@
 #include "../here.h"
 #include <cutest.h>
 #include <stdio.h>
-
+#include <string.h>
 
 CUTE_TEST_CASE(here_matching_test)
     struct matching_mapping {
