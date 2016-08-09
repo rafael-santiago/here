@@ -26,6 +26,7 @@ here-test.prologue() {
     var exit_code type int;
     $exit_code = 1;
     if (hefesto.sys.cd("cutest/src")) {
+        var cutest_addition_cflags type string;
         $exit_code = hefesto.sys.forge("cutest", "Forgefile.hsl", "--obj-output-dir=obj --bin-output-dir=lib");
         hefesto.sys.cd("../..");
         $sources.ls(".*\\.c$");
