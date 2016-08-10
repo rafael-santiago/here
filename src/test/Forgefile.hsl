@@ -37,6 +37,8 @@ here-test.prologue() {
             $ldflags.add_item("-ldl");
         } else if (hefesto.sys.os_name() == "freebsd") {
             $ldflags.add_item("-lexecinfo");
+        } else if (hefesto.sys.os_name() == "minix") {
+            $ldflags.add_item("-lexecinfo");
         }
         $includes = hefesto.sys.get_option("includes");
         $includes.add_item("cutest/src");
