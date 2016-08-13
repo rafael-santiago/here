@@ -146,7 +146,7 @@ CUTE_TEST_CASE(here_matching_test)
         {NULL, NULL, 0}
     };
     int m, retval;
-    here_search_program_ctx *search_program, *sp;
+    here_search_program_ctx *search_program;
     here_search_result_ctx *search_result;
     char *msg = (char *) malloc(1024);
     for (m = 0; mm[m].data != NULL; m++) {
