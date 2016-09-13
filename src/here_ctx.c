@@ -58,8 +58,8 @@ here_search_program_ctx *add_regex_to_here_search_program_ctx(
                 }
                 new_step->buffer_size = t - (b+1);
                 new_step->buffer = (char *)
-                            here_alloc(new_step->buffer_size + 1);
-                memset(new_step->buffer, 0, new_step->buffer_size + 1);
+                            here_alloc(new_step->buffer_size + 2);
+                memset(new_step->buffer, 0, new_step->buffer_size + 2);
                 x = new_step->buffer;
                 t = b + 1 + neg;
                 while (t <= (b + new_step->buffer_size)) {
