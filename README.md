@@ -55,6 +55,7 @@ search_result = here_match_string(user_data_buffer, search_program);
 
 if (here_matches(search_result)) {
     printf("Pattern found.\n");
+    del_here_search_result_ctx(search_result);
 }
 
 del_here_search_program_ctx(search_program);
