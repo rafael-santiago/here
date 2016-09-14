@@ -4,6 +4,7 @@
 #
 include ~/toolsets/gcc/gcc-app.hsl
 include ~/toolsets/clang/clang-app.hsl
+include ~/fsutil.hsl
 include ../Forgeutils.hsl
 
 var sources type list;
@@ -58,7 +59,15 @@ here-test.prologue() {
         $includes = hefesto.sys.get_option("includes");
         $includes.add_item("cutest/src");
 
+        if (isdir("/usr/local/include/")) {
+            $includes.add_item("/usr/local/include");
+        }
+
         $libraries = hefesto.sys.get_option("libraries");
+
+        if (isdir("/usr/local/lib")) {
+            $libraries.add_item("/usr/local/lib");
+        }
 
         $cflags = hefesto.sys.get_option("cflags");
 
