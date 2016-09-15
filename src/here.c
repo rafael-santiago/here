@@ -37,10 +37,14 @@ int here_replace_string(const char *string,
     s_end = string + strlen(string);
     search_result = here_match_string(sp, search_program);
 
-    while (here_matches(search_result) && sp <= s_end) {
+    while (here_matches(search_result) && sp < s_end) {
         replacements_nr++;
         sp = search_result->end_at + 1;
         del_here_search_result_ctx(search_result);
+        if (sp >= s_end) {
+            search_result = NULL;
+            continue;
+        }
         search_result = here_match_string(sp, search_program);
         if (search_result &&
             search_result->start_at == search_result->end_at + 1) {
@@ -59,7 +63,7 @@ int here_replace_string(const char *string,
 
     search_result = here_match_string(sp, search_program);
 
-    while (here_matches(search_result) && sp <= s_end) {
+    while (here_matches(search_result) && sp < s_end) {
 
         while (search_result->start_at > sp) {
             *op = *sp;
@@ -75,6 +79,11 @@ int here_replace_string(const char *string,
 
         del_here_search_result_ctx(search_result);
 
+        if (sp >= s_end) {
+            search_result = NULL;
+            continue;
+        }
+
         search_result = here_match_string(sp, search_program);
 
         if (search_result != NULL &&
@@ -84,7 +93,7 @@ int here_replace_string(const char *string,
 
     }
 
-    if (sp <= s_end) {
+    if (sp < s_end) {
         for (; sp != s_end; sp++, op++) *op = *sp;
     }
 
