@@ -143,6 +143,7 @@ CUTE_TEST_CASE(here_matching_test)
         {"hmod-freebsd-port.path", "\\..*(h|hpp)$", 1},
         {"7202 bytes sent", "^(202|421|426|450|500|501|503|530|550|553|666|777|999) ", 0},
         {"202 bytes sent", "^(202|421|426|450|500|501|503|530|550|553|666|777|999) ", 1},
+        {"/root/src/hefesto2/src/hvm_list.o", ".*main\\.o\"$", 0},
         {NULL, NULL, 0}
     };
     int m, retval;
