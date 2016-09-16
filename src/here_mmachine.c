@@ -508,7 +508,7 @@ static here_search_result_ctx *match_dot(const char *buffer,
                 if (search_result == NULL) {
                     new_here_search_result_ctx(search_result);
                 }
-                search_result->end_at = buffer;
+                search_result->end_at = buffer + 1;
             }
             break;
         case HERE_CTYPE_QUESTION:
